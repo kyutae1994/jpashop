@@ -1,5 +1,8 @@
 package jpabook.jpashop.domain;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 public enum OrderStatus {
     ORDER, CANCEL
 }
