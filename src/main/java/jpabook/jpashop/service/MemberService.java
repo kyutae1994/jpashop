@@ -16,6 +16,11 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+//    @Autowired
+//    public MemberService(MemberRepository memberRepository) {
+//        this.memberRepository = memberRepository;
+//    }
+
     // @Autowired  생성자 하나만 있으면 default로 자동으로 Autowired가 됨
 
     /**
@@ -47,5 +52,11 @@ public class MemberService {
      */
     public Member findOne(Long id){
         return memberRepository.findOne(id);
+    }
+
+    @Transactional
+    public void update(Long id, String name) {
+        Member member = memberRepository.findOne(id);
+        member.setName(name);
     }
 }
