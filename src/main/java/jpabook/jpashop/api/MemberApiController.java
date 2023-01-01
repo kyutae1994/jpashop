@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,12 +45,15 @@ public class MemberApiController {
         private String name;
     }
 
+    // Entity를 파라미터로 받아옴. 하지만 Entity는 공통부분이기 때문에 Entity를 고치면 안됨!!!
     @PostMapping("/api/v1/members")     //@RequestBody : Json 데이터를 member로 넣어준다.
     public CreateMemberResponse saveMemberV1(@RequestBody @Valid Member member) {
         Long id = memberService.join(member);
         return new CreateMemberResponse(id);
     }
 
+    // Entity가 아니라 별도의 dto를 만들어서 가져옴.
+    // 왜냐하면 Entity는 공통이라 내가 고친다면 다른데서는 오류가 뜨기 때문에 따로 dto를 만들어 내 입맛대로 만드는 것.
     @PostMapping("/api/v2/members")
     public CreateMemberResponse saveMemberV2(@RequestBody @Valid CreateMemberRequest request) {
         Member member = new Member();
@@ -81,6 +85,7 @@ public class MemberApiController {
 
     @Data
     static class CreateMemberRequest {
+        @NotEmpty
         private String name;
     }
 

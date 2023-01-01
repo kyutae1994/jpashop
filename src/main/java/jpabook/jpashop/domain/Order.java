@@ -15,7 +15,7 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Table(name = "orders")
 @Getter @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // 생성자 생성 제한(createOrder 같은 정해진 메소드를 써라)
 public class Order {
 
     @Id @GeneratedValue
