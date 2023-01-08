@@ -23,9 +23,11 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       use-new-id-generator-mappings: false
-    show-sql: false
     properties:
-      hibernate.format_sql: true
+      hibernate:
+#        show-sql: true
+        format_sql: true
+        default_batch_fetch_size: 100
       dialect: org.hibernate.dialect.MySQL5InnoDBDialect
 
 logging:
