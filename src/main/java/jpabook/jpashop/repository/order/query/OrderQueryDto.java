@@ -17,12 +17,20 @@ public class OrderQueryDto {
     private Address address;
     private List<OrderItemQueryDto> orderItems;
 
-    public OrderQueryDto(Long orderId, String name, LocalDateTime localDateTime, OrderStatus orderStatus, Address address/*, List<OrderItemQueryDto> orderItems*/) {
+    public OrderQueryDto(Long orderId, String name, LocalDateTime localDateTime, OrderStatus orderStatus, Address address) {
         this.orderId = orderId;
         this.name = name;
         this.localDateTime = localDateTime;
         this.orderStatus = orderStatus;
         this.address = address;
-//        this.orderItems = orderItems;
+    }
+
+    public OrderQueryDto(Long orderId, String name, LocalDateTime localDateTime, OrderStatus orderStatus, Address address, List<OrderItemQueryDto> orderItems) {
+        this.orderId = orderId;
+        this.name = name;
+        this.localDateTime = localDateTime;
+        this.orderStatus = orderStatus;
+        this.address = address;
+        this.orderItems = orderItems;
     }
 }
