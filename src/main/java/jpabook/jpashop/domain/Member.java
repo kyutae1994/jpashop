@@ -19,10 +19,18 @@ public class Member {
 
     private String name;
 
+    private String email;
+
+    private String password;
+
     @Embedded
     private Address address;
 
     @JsonIgnore // json 데이터에서 주문정보 빼기
     @OneToMany(mappedBy = "member")  // 읽기 전용 값 넣는다고 FK 안변함
     private List<Order> orders = new ArrayList<>();
+
+    public boolean checkPassword(String password){
+        return this.password.equals(password);
+    }
 }
