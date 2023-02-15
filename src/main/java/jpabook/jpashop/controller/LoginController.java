@@ -4,6 +4,7 @@ import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.service.LoginService;
 import jpabook.jpashop.session.SessionConst;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
