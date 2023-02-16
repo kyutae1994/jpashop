@@ -23,6 +23,8 @@ public class Member {
 
     private String password;
 
+    private String salt; // 암호화 salt 저장
+
     @Embedded
     private Address address;
 

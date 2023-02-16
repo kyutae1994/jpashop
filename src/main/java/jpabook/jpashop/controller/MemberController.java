@@ -3,8 +3,8 @@ package jpabook.jpashop.controller;
 import jpabook.jpashop.domain.Address;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.service.MemberService;
+import jpabook.jpashop.sessioin.Sha256;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,7 +19,6 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
-    private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/members/new")
     public String createHome(Model model) {
@@ -36,9 +35,11 @@ public class MemberController {
 
         Address address = new Address(form.getCity(), form.getStreet(), form.getZipcode());
 
+        String salt = Sha256.generateSalt();
         Member member = new Member();
+        member.setSalt(salt);
         member.setEmail(form.getEmail());
-        member.setPassword(passwordEncoder.encode(form.getPassword()));
+        member.setPassword(Sha256.getEncrypt(form.getPassword(), salt.getBytes()));
         member.setName(form.getName());
         member.setAddress(address);
 

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,5 +23,9 @@ public class LoginService {
             throw new IllegalStateException("이메일과 비밀번호가 일치하지 않습니다.");
         }
         return findMember.get();
+    }
+
+    public List<Member> findBySalt(String email) {
+        return memberRepository.findBySalt(email);
     }
 }

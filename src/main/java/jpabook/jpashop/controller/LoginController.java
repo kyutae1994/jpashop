@@ -2,9 +2,9 @@ package jpabook.jpashop.controller;
 
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.service.LoginService;
-import jpabook.jpashop.session.SessionConst;
+import jpabook.jpashop.sessioin.SessionConst;
+import jpabook.jpashop.sessioin.Sha256;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +27,8 @@ public class LoginController {
             return "/logins/loginForm";
         }
 
-        Member loginMember = loginService.login(form.getEmail(), form.getPassword());
+        String salt = loginService.findBySalt(form.getEmail()).get(0).getSalt();
+        Member loginMember = loginService.login(form.getEmail(), Sha256.getEncrypt(form.getPassword(), salt.getBytes()));
 
         /**
          * 로그인 성공 처리

@@ -42,4 +42,10 @@ public class MemberRepository {
                 .setParameter("email", email)
                 .getResultList().stream().findAny();
     }
+
+    public List<Member> findBySalt(String email) {
+        return em.createQuery("select m from Member m where m.email = :email", Member.class)
+                .setParameter("email", email)
+                .getResultList();
+    }
 }
