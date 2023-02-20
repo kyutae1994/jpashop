@@ -1,11 +1,8 @@
 package jpabook.jpashop.service;
 
-import jpabook.jpashop.controller.EmailForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
@@ -18,42 +15,67 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class MailService {
 
-    private final JavaMailSender javaMailSender;
-    private final RedisUtil redisUtil;
+    //의존성 주입을 통해서 필요한 객체를 가져온다.
+    private final JavaMailSender emailSender;
+    // 타임리프를사용하기 위한 객체를 의존성 주입으로 가져온다
+    private final SpringTemplateEngine templateEngine;
+    private String authNum; //랜덤 인증 코드
 
-    /*
-    이메일 전송
-    */
-    @Override
-    @Transactional
-    public void authEmail(EmailForm request) {
-
-        // 임의의 authKey 생성
+    //랜덤 인증 코드 생성
+    public void createCode() {
         Random random = new Random();
-        String authKey = String.valueOf(random.nextInt(888888) + 111111);  // 범위 : 111111 ~ 999999
+        StringBuffer key = new StringBuffer();
 
-        // 이메일 발송
-        sendAuthEmail(request.getEmail(), authKey);
+        for(int i=0;i<8;i++) {
+            int index = random.nextInt(3);
+
+            switch (index) {
+                case 0 :
+                    key.append((char) ((int)random.nextInt(26) + 97));
+                    break;
+                case 1:
+                    key.append((char) ((int)random.nextInt(26) + 65));
+                    break;
+                case 2:
+                    key.append(random.nextInt(9));
+                    break;
+            }
+        }
+        authNum = key.toString();
     }
 
-    private void sendAuthEmail(String email, String authKey) {
+    //메일 양식 작성
+    public MimeMessage createEmailForm(String email) throws MessagingException, UnsupportedEncodingException {
 
-        String subject = "제목";
-        String text = "회원 가입을 위한 인증번호는 " + authKey + "입니다. <br/>";
+        createCode(); //인증 코드 생성
+        String setFrom = "tim9ute@naver.com"; //email-config에 설정한 자신의 이메일 주소(보내는 사람)
+        String toEmail = email; //받는 사람
+        String title = "shoppingmall 회원가입 인증 번호"; //제목
 
-        try {
-            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "utf-8");
-            helper.setTo(email);
-            helper.setSubject(subject);
-            helper.setText(text, true);//포함된 텍스트가 HTML이라는 의미로 true.
-            javaMailSender.send(mimeMessage);
+        MimeMessage message = emailSender.createMimeMessage();
+        message.addRecipients(MimeMessage.RecipientType.TO, email); //보낼 이메일 설정
+        message.setSubject(title); //제목 설정
+        message.setFrom(setFrom); //보내는 이메일
+        message.setText(setContext(authNum), "utf-8", "html");
 
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
+        return message;
+    }
 
-        // 유효 시간(5분)동안 {email, authKey} 저장
-        redisUtil.setDataExpire(authKey, email, 60 * 5L);
+    //실제 메일 전송
+    public String sendEmail(String toEmail) throws MessagingException, UnsupportedEncodingException {
+
+        //메일전송에 필요한 정보 설정
+        MimeMessage emailForm = createEmailForm(toEmail);
+        //실제 메일 전송
+        emailSender.send(emailForm);
+
+        return authNum; //인증 코드 반환
+    }
+
+    //타임리프를 이용한 context 설정
+    public String setContext(String code) {
+        Context context = new Context();
+        context.setVariable("code", code);
+        return templateEngine.process("mail", context); //mail.html
     }
 }
