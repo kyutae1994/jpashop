@@ -51,12 +51,15 @@ public class MailService {
         String setFrom = "tim9ute@naver.com"; //email-config에 설정한 자신의 이메일 주소(보내는 사람)
         String toEmail = email; //받는 사람
         String title = "shoppingmall 회원가입 인증 번호"; //제목
+        String content = "인증 번호는 " + authNum + "입니다." + //html 형식으로 작성 !
+                "<br>" +
+                "해당 인증번호를 인증번호 확인란에 기입하여 주세요."; //이메일 내용 삽입
 
         MimeMessage message = emailSender.createMimeMessage();
         message.addRecipients(MimeMessage.RecipientType.TO, email); //보낼 이메일 설정
         message.setSubject(title); //제목 설정
         message.setFrom(setFrom); //보내는 이메일
-        message.setText(setContext(authNum), "utf-8", "html");
+        message.setText(content, "utf-8", "html");
 
         return message;
     }
@@ -70,12 +73,5 @@ public class MailService {
         emailSender.send(emailForm);
 
         return authNum; //인증 코드 반환
-    }
-
-    //타임리프를 이용한 context 설정
-    public String setContext(String code) {
-        Context context = new Context();
-        context.setVariable("code", code);
-        return templateEngine.process("mail", context); //mail.html
     }
 }
