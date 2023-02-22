@@ -6,6 +6,8 @@
         border-color: #bd2130;
     }
 </style>
+<script th:src="@{https://code.jquery.com/jquery-3.6.3.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/createMemberForm.js}"></script>
 <body>
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
@@ -20,7 +22,7 @@
                th:errors="*{email}">Incorrect email</p>
         </div>
         <div class="input-group-addon">
-            <button type="button" class="btn btn-primary" id="mail-Check-Btn">본인인증</button>
+            <button type="button" class="btn btn-primary" id="mail-Check-Btn" th:onclick="|index.mailCheck()|">본인인증</button>
         </div>
         <div class="mail-check-box">
             <input class="form-control mail-check-input" placeholder="인증번호 6자리를 입력해주세요!" disabled="disabled" maxlength="6">
