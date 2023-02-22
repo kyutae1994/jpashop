@@ -24,23 +24,17 @@ spring:
       dialect: org.hibernate.dialect.MySQL5InnoDBDialect
 
   mail:
-    host: smtp.naver.com #smtp 서버 주소
-    port: 465 # 메일 인증서버 포트
-    username: tim9ute #네이버 아이디
-    password: tim6358? #네이버 비밀번호
+    # Google smtp server 사용
+    host: smtp.gmail.com
+    port: 587
+    username: k305059ute #앱 비밀번호 발급받은 google 계정
+    password: gtykujgasfldfslm #발급받은 앱 비밀번호 gtykujgasfldfslm
     properties:
       mail:
         smtp:
           starttls:
             enable: true
-          #            required: true
           auth: true
-          #          connectiontimeout: 5000
-          #          timeout: 5000
-          #          writetimeout: 5000
-          ssl:
-            #trust: smtp.naver.com
-            enable: true #반드시 필요 -> SSL 필요로 되어있으면
 
 logging:
   level:

@@ -19,8 +19,8 @@ let index = {
 
 // 인증번호 비교
 // blur -> focus가 벗어나는 경우 발생
-$('.mail-check-input').blur(function () {
-    const inputCode = $(this).val();
+function checkPassword() {
+    const inputCode = $('#check-Password').val();
     const $resultMsg = $('#mail-check-warn');
 
     if (inputCode === code) {
@@ -32,4 +32,4 @@ $('.mail-check-input').blur(function () {
         $resultMsg.html('인증번호가 불일치 합니다. 다시 확인해주세요!.');
         $resultMsg.css('color', 'red');
     }
-});
+}

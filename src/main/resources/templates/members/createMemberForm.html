@@ -25,7 +25,7 @@
             <button type="button" class="btn btn-primary" id="mail-Check-Btn" th:onclick="|index.mailCheck()|">본인인증</button>
         </div>
         <div class="mail-check-box">
-            <input class="form-control mail-check-input" placeholder="인증번호 6자리를 입력해주세요!" disabled="disabled" maxlength="6">
+            <input class="form-control mail-check-input" id="check-Password" th:onblur="'checkPassword()'" placeholder="인증번호 6자리를 입력해주세요!" disabled="disabled" maxlength="10">
         </div>
         <span id="mail-check-warn"></span>
         <div class="form-group">
