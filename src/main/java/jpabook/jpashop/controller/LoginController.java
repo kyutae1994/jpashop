@@ -1,13 +1,16 @@
 package jpabook.jpashop.controller;
 
 import jpabook.jpashop.domain.Member;
+import jpabook.jpashop.dto.LoginForm;
 import jpabook.jpashop.service.LoginService;
 import jpabook.jpashop.sessioin.SessionConst;
 import jpabook.jpashop.sessioin.Sha256;
+import jpabook.jpashop.sessioin.TokenInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -20,24 +23,12 @@ public class LoginController {
     private final LoginService loginService;
 
     @PostMapping("/login")
-    public String login(@Valid LoginForm form, BindingResult bindingResult, HttpServletRequest request) {
+    public TokenInfo login(@RequestBody LoginForm form) {
 
-        // LoginForm 에 email 혹은 password 의 값이 존재하지 않을 때
-        if (bindingResult.hasErrors()) {
-            return "/logins/loginForm";
-        }
-
-        String salt = loginService.findBySalt(form.getEmail()).get(0).getSalt();
-        Member loginMember = loginService.login(form.getEmail(), Sha256.getEncrypt(form.getPassword(), salt.getBytes()));
-
-        /**
-         * 로그인 성공 처리
-         **/
-        //세션이 있으면 있는 세션 반환, 없으면 신규 세션을 생성
-        HttpSession session = request.getSession();
-        //세션에 로그인 회원 정보 보관
-        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
-        return "redirect:/";
+        String email = form.getEmail();
+        String password = form.getPassword();
+        TokenInfo tokenInfo = loginService.login(email, password);
+        return tokenInfo;
     }
 
     // 서블릿 HTTP 세션 사용
