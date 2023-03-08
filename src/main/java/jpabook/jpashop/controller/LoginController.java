@@ -22,8 +22,8 @@ public class LoginController {
 
     private final LoginService loginService;
 
-    @PostMapping("/login")
-    public TokenInfo login(@RequestBody LoginForm form) {
+    @PostMapping(value = "/login")
+    public TokenInfo login(LoginForm form) {
 
         String email = form.getEmail();
         String password = form.getPassword();
