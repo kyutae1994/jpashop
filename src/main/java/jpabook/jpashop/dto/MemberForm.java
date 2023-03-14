@@ -14,6 +14,7 @@ public class MemberForm {
     @NotEmpty(message = "비밀번호는 필수 입니다") // 값이 없으면 오류
     private String password;
 
+    private String roles;
     private String name;
     private String city;
     private String street;
