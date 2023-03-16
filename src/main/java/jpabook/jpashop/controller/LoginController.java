@@ -1,20 +1,14 @@
 package jpabook.jpashop.controller;
 
-import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.dto.LoginForm;
 import jpabook.jpashop.service.LoginService;
-import jpabook.jpashop.sessioin.SessionConst;
-import jpabook.jpashop.sessioin.Sha256;
-import jpabook.jpashop.sessioin.TokenInfo;
+import jpabook.jpashop.config.TokenInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 @Controller
 @RequiredArgsConstructor
@@ -22,7 +16,7 @@ public class LoginController {
 
     private final LoginService loginService;
 
-    @PostMapping(value = "/login")
+    @PostMapping("/login")
     public TokenInfo login(LoginForm form) {
 
         String email = form.getEmail();

@@ -1,4 +1,4 @@
-package jpabook.jpashop.api;
+package jpabook.jpashop.test;
 
 import jpabook.jpashop.domain.Address;
 import jpabook.jpashop.domain.Order;

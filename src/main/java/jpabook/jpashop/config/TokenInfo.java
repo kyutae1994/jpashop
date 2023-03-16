@@ -1,4 +1,4 @@
-package jpabook.jpashop.sessioin;
+package jpabook.jpashop.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

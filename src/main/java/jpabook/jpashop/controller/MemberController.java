@@ -4,7 +4,7 @@ import jpabook.jpashop.domain.Address;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.dto.MemberForm;
 import jpabook.jpashop.service.MemberService;
-import jpabook.jpashop.sessioin.Sha256;
+import jpabook.jpashop.config.Sha256;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

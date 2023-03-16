@@ -1,21 +1,17 @@
 package jpabook.jpashop.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Getter @Setter
@@ -37,29 +33,26 @@ public class Member implements UserDetails {
     @Embedded
     private Address address;
 
-    private String roles;
+    private String roles; // USER, ADMIN
 
     @JsonIgnore // json 데이터에서 주문정보 빼기
     @OneToMany(mappedBy = "member")  // 읽기 전용 값 넣는다고 FK 안변함
     private List<Order> orders = new ArrayList<>();
 
-    public boolean checkPassword(String password){
-        return this.password.equals(password);
+    public List<String> getRoleList() {
+        if (this.roles.length() > 0) {
+            return Arrays.asList(this.roles.split(","));
+        }
+        return new ArrayList<>();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<GrantedAuthority> collect = new ArrayList<>();
-        collect.add(new GrantedAuthority() {
-            @Override
-            public String getAuthority() {
-                return roles;
-            }
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        this.getRoleList().forEach(r -> {
+            authorities.add(() -> r);
         });
-        return collect;
-//                this.roles.stream()
-//                .map(SimpleGrantedAuthority::new)
-//                .collect(Collectors.toList());
+        return authorities;
     }
 
     @Override

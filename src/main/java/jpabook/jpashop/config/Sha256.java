@@ -1,4 +1,4 @@
-package jpabook.jpashop.sessioin;
+package jpabook.jpashop.config;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

@@ -1,10 +1,9 @@
 package jpabook.jpashop.service;
 
 import jpabook.jpashop.domain.Member;
-import jpabook.jpashop.exception.NotCorrespondingEmailException;
 import jpabook.jpashop.repository.MemberRepository;
-import jpabook.jpashop.sessioin.JwtTokenProvider;
-import jpabook.jpashop.sessioin.TokenInfo;
+import jpabook.jpashop.config.JwtTokenProvider;
+import jpabook.jpashop.config.TokenInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
