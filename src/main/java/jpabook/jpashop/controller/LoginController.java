@@ -1,8 +1,8 @@
 package jpabook.jpashop.controller;
 
+import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.dto.LoginForm;
-import jpabook.jpashop.service.LoginService;
-import jpabook.jpashop.config.TokenInfo;
+import jpabook.jpashop.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,15 +14,16 @@ import javax.servlet.http.HttpSession;
 @RequiredArgsConstructor
 public class LoginController {
 
-    private final LoginService loginService;
+    private final MemberRepository memberRepository;
 
     @PostMapping("/login")
-    public TokenInfo login(LoginForm form) {
+    public String login(LoginForm form) {
 
         String email = form.getEmail();
         String password = form.getPassword();
-        TokenInfo tokenInfo = loginService.login(email, password);
-        return tokenInfo;
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 E-MAIL 입니다."));
+        return member;
     }
 
     // 서블릿 HTTP 세션 사용

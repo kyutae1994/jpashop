@@ -1,4 +1,4 @@
-package jpabook.jpashop.service;
+package jpabook.jpashop.config;
 
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.repository.MemberRepository;
@@ -16,12 +16,10 @@ import java.util.Optional;
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
-    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        System.out.println("12321321321321321321321321");
-        return memberRepository.findByEmail(email)
+        return (UserDetails) memberRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("해당하는 유저를 찾을 수 없습니다."));
     }
 }

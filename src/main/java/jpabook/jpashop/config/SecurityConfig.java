@@ -1,6 +1,7 @@
 package jpabook.jpashop.config;
 
 import jpabook.jpashop.filter.MyFilter;
+import jpabook.jpashop.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +22,7 @@ import org.springframework.web.filter.CorsFilter;
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final JwtTokenProvider jwtTokenProvider;
+    private final MemberRepository memberRepository;
     private final CorsFilter corsFilter;
 
     @Bean
@@ -38,19 +39,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)  // 세션 방법 안씀
                 .and()
-                .addFilter(corsFilter) // @CrossOrigin(인증 x), 시큐리티 필터에 등록(인증 o)
-                .formLogin().disable()
+                .formLogin()
+                .loginPage("/")
+                .successForwardUrl("/")
+                .and()
                 .httpBasic().disable() // 기본적인 http 로그인 방식 안씀
-                .addFilter(new JwtAuthenticationFilter(authenticationManager())) // AuthenticationManger를 던져줘야됨.
+                .addFilter(corsFilter) // @CrossOrigin(인증 x), 시큐리티 필터에 등록(인증 o)
+                .addFilter(new JwtAuthenticationFilter(authenticationManager())) // AuthenticationManger
+                .addFilter(new JwtAuthorizationFilter(authenticationManager(), memberRepository)) // AuthenticationManger
                 .authorizeRequests()
+                .antMatchers("/").permitAll()
                 .antMatchers("/css/**", "/images/**", "/js/**").permitAll()
-                .antMatchers("/members/**").permitAll()
-                .antMatchers("/login/**").permitAll()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/user/**").hasRole("USER")
                 .anyRequest().permitAll()
                 .and()
-                .logout().permitAll()
-                .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+                .logout().permitAll();
     }
 
     @Bean

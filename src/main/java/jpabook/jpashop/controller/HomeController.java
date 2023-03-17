@@ -1,8 +1,8 @@
 package jpabook.jpashop.controller;
 
+import jpabook.jpashop.config.SessionConst;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.dto.LoginForm;
-import jpabook.jpashop.config.SessionConst;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
