@@ -43,7 +43,6 @@ public class MemberController {
         member.setPassword(Sha256.getEncrypt(form.getPassword(), salt.getBytes()));
         member.setName(form.getName());
         member.setAddress(address);
-        member.setRoles("USER");
 
         memberService.join(member);
         return "redirect:/";

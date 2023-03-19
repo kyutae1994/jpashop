@@ -1,34 +1,64 @@
-package jpabook.jpashop.service;
-
-//import jpabook.jpashop.config.TokenInfo;
-
-
+//package jpabook.jpashop.service;
+//
+//import jpabook.jpashop.domain.Member;
+//import jpabook.jpashop.repository.MemberRepository;
+//import lombok.RequiredArgsConstructor;
+//import org.springframework.security.authentication.BadCredentialsException;
+//import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.stereotype.Service;
+//import org.springframework.transaction.annotation.Transactional;
+//
+//import java.util.Collections;
+//
 //@Service
-//@Transactional(readOnly = true)
+//@Transactional
 //@RequiredArgsConstructor // final 있는 애만 생성자 생성해줌
 //public class LoginService {
 //
 //    private final MemberRepository memberRepository;
-//    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+//    private final PasswordEncoder passwordEncoder;
 //    private final JwtTokenProvider jwtTokenProvider;
-
-//    @Transactional
-//    public TokenInfo login(String email, String password) {
-//        // 1. Login ID/PW 를 기반으로 Authentication 객체 생성
-//        // 이때 authentication 는 인증 여부를 확인하는 authenticated 값이 false
-//        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email, password);
 //
-//        // 2. 실제 검증 (사용자 비밀번호 체크)이 이루어지는 부분
-//        // authenticate 매서드가 실행될 때 CustomUserDetailsService 에서 만든 loadUserByUsername 메서드가 실행
-//        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+//    public SignResponse login(SignRequest request) throws Exception {
+//        Member member = memberRepository.findByEmail(request.getEmail()).orElseThrow(() ->
+//                new BadCredentialsException("잘못된 계정정보입니다."));
 //
-//        // 3. 인증 정보를 기반으로 JWT 토큰 생성
-//        TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
+//        if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
+//            throw new BadCredentialsException("잘못된 계정정보입니다.");
+//        }
 //
-//        return tokenInfo;
+//        return SignResponse.builder()
+//                .id(member.getId())
+//                .name(member.getName())
+//                .email(member.getEmail())
+//                .roles(member.getRoles())
+//                .token(jwtTokenProvider.createToken(member.getEmail(), member.getRoles()))
+//                .build();
+//
 //    }
 //
-//    public List<Member> findBySalt(String email) {
-//        return memberRepository.findBySalt(email);
+//    public boolean register(SignRequest request) throws Exception {
+//        try {
+//            Member member = Member.builder()
+//                    .password(passwordEncoder.encode(request.getPassword()))
+//                    .name(request.getName())
+//                    .email(request.getEmail())
+//                    .build();
+//
+//            member.setRoles(Collections.singletonList(Authority.builder().name("ROLE_USER").build()));
+//
+//            memberRepository.save(member);
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//            throw new Exception("잘못된 요청입니다.");
+//        }
+//        return true;
 //    }
+//
+//    public SignResponse getMember(String email) throws Exception {
+//        Member member = memberRepository.findByEmail(email)
+//                .orElseThrow(() -> new Exception("계정을 찾을 수 없습니다."));
+//        return new SignResponse(member);
+//    }
+//
 //}
