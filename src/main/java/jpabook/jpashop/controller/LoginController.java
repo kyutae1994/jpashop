@@ -2,6 +2,7 @@ package jpabook.jpashop.controller;
 
 import jpabook.jpashop.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -13,7 +14,6 @@ import javax.servlet.http.HttpSession;
 public class LoginController {
 
     private final MemberRepository memberRepository;
-//    private final LoginService loginService;
 
 //    @PostMapping("/login")
 //    public ResponseEntity<SignResponse> signin(SignRequest request) throws Exception {

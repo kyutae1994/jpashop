@@ -5,6 +5,11 @@ spring:
     username: root
     password: 3161
 
+  devtools:
+    remote:
+      restart:
+        enabled: true
+
   jpa:
     open-in-view: true
     hibernate:

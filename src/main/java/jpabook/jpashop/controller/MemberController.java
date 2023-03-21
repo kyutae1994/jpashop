@@ -6,6 +6,7 @@ import jpabook.jpashop.dto.MemberForm;
 import jpabook.jpashop.service.MemberService;
 import jpabook.jpashop.config.Sha256;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,6 +21,7 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/members/new")
     public String createHome(Model model) {
@@ -40,9 +42,11 @@ public class MemberController {
         Member member = new Member();
         member.setSalt(salt);
         member.setEmail(form.getEmail());
-        member.setPassword(Sha256.getEncrypt(form.getPassword(), salt.getBytes()));
+//        member.setPassword(Sha256.getEncrypt(form.getPassword(), salt.getBytes()));
+        member.setPassword(passwordEncoder.encode(form.getPassword()));
         member.setName(form.getName());
         member.setAddress(address);
+        member.setRoles("ROLE_USER");
 
         memberService.join(member);
         return "redirect:/";
