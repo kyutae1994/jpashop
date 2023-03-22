@@ -21,7 +21,7 @@ public class LoginController {
 
     private final MemberRepository memberRepository;
 
-    @PostMapping("/login")
+    @GetMapping("/login")
     public String login(@RequestBody LoginForm loginForm, HttpServletResponse res) {
         // 로그인 성공시 쿠키에 token 저장
         System.out.println(loginForm);

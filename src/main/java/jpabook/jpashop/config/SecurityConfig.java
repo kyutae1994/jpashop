@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/")		// 인증이 필요한 URL에 접근하면 /loginForm으로 이동
                 .usernameParameter("email")		// 로그인 시 form에서 가져올 값(id, email 등이 해당)
                 .passwordParameter("password")		// 로그인 시 form에서 가져올 값
-                .loginProcessingUrl("/login")		// 로그인을 처리할 URL 입력
+                .loginProcessingUrl("/")		// 로그인을 처리할 URL 입력
                 .defaultSuccessUrl("/")			// 로그인 성공하면 "/" 으로 이동
                 .failureUrl("/")		//로그인 실패 시 /loginForm으로 이동
                 .and()
