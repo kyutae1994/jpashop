@@ -29,9 +29,4 @@ public class HomeController {
         model.addAttribute("member", member);
         return "home";
     }
-
-    @PostMapping("/token")
-    public String token() {
-        return "home";
-    }
 }

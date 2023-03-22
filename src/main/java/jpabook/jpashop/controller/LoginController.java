@@ -1,13 +1,19 @@
 package jpabook.jpashop.controller;
 
+import jpabook.jpashop.dto.LoginForm;
 import jpabook.jpashop.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -15,10 +21,12 @@ public class LoginController {
 
     private final MemberRepository memberRepository;
 
-//    @PostMapping("/login")
-//    public ResponseEntity<SignResponse> signin(SignRequest request) throws Exception {
-//        return new ResponseEntity<>(loginService.login(request), HttpStatus.OK);
-//    }
+    @PostMapping("/login")
+    public String login(@RequestBody LoginForm loginForm, HttpServletResponse res) {
+        // 로그인 성공시 쿠키에 token 저장
+        System.out.println(loginForm);
+        return "redirect:/";
+    }
 
     // 서블릿 HTTP 세션 사용
     @PostMapping("/logout")
@@ -29,5 +37,15 @@ public class LoginController {
             session.invalidate();
         }
         return "redirect:/";
+    }
+
+    @GetMapping("/user")
+    public String user() {
+        return "home";
+    }
+
+    @GetMapping("/admin")
+    public String admin() {
+        return "home";
     }
 }

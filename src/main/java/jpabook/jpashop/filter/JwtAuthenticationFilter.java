@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jpabook.jpashop.config.auth.PrincipalDetails;
 import jpabook.jpashop.domain.Member;
+import jpabook.jpashop.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,6 +37,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         // 1. username, password 받아서
         try {
             ObjectMapper om = new ObjectMapper();
+            System.out.println(request.getParameter("email"));
             Member member = om.readValue(request.getInputStream(), Member.class);
             System.out.println(member);
 
