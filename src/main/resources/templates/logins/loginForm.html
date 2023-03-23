@@ -6,6 +6,11 @@
         border-color: #bd2130;
     }
 </style>
+<script>
+    function login() {
+
+    }
+</script>
 <body>
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
@@ -22,7 +27,7 @@
                    placeholder="PASSWORD 를 입력하세요">
         </div>
         <br/>
-        <button type="submit" class="btn btn-primary">로그인</button>
+        <button type="submit" class="btn btn-primary" onclick="login()">로그인</button>
         <a class="btn btn-secondary" href="/members/new">회원가입</a>
     </form>
     <br/>

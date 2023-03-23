@@ -29,4 +29,9 @@ public class HomeController {
         model.addAttribute("member", member);
         return "home";
     }
+
+    @GetMapping("/home")
+    public String homeLogin(){
+        return "home";
+    }
 }

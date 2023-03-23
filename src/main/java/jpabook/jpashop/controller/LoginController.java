@@ -25,7 +25,7 @@ public class LoginController {
     public String login(@RequestBody LoginForm loginForm, HttpServletResponse res) {
         // 로그인 성공시 쿠키에 token 저장
         System.out.println(loginForm);
-        return "redirect:/";
+        return "logins/loginForm";
     }
 
     // 서블릿 HTTP 세션 사용
