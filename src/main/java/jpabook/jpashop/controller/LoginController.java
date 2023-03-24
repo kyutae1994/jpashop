@@ -21,12 +21,14 @@ public class LoginController {
 
     private final MemberRepository memberRepository;
 
-    @GetMapping("/login")
-    public String login(@RequestBody LoginForm loginForm, HttpServletResponse res) {
-        // 로그인 성공시 쿠키에 token 저장
-        System.out.println(loginForm);
-        return "logins/loginForm";
-    }
+//    @GetMapping("/login")
+//    public String login(HttpServletResponse response) {
+//        String referrer = response.getHeader("Authorization");
+////        if(referrer!=null){
+////            request.getSession().setAttribute("url_prior_login", referrer);
+////        }
+//        return "redirect:/";
+//    }
 
     // 서블릿 HTTP 세션 사용
     @PostMapping("/logout")

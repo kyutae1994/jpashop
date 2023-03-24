@@ -30,8 +30,9 @@ public class HomeController {
         return "home";
     }
 
-    @GetMapping("/home")
-    public String homeLogin(){
+    // 로그인 페이지
+    @GetMapping("/login")
+    public String login() {
         return "home";
     }
 }
