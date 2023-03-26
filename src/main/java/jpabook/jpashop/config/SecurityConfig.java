@@ -4,9 +4,11 @@ import jpabook.jpashop.filter.JwtAuthenticationFilter;
 import jpabook.jpashop.filter.JwtAuthorizationFilter;
 import jpabook.jpashop.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -20,6 +22,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CorsConfig corsConfig;
     private final MemberRepository memberRepository;
 
+    @Override
+    public void configure(WebSecurity web) {
+        web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -32,11 +38,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().disable()
                 .formLogin().disable()
                 .authorizeRequests()
+                .antMatchers("/favicon.ico", "/").permitAll()
                 .antMatchers("/admin/**")
                 .access("hasRole('ROLE_ADMIN')")
-                .antMatchers("/user/**")
+                .antMatchers("/user/**", "/home")
                 .access("hasRole('ROLE_USER')")
-                .anyRequest().permitAll();
+                .anyRequest().authenticated();
     }
 
     @Bean

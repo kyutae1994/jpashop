@@ -36,12 +36,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         // 1. username, password 받아서
 //        ObjectMapper om = new ObjectMapper();
-        System.out.println(request.getParameter("email"));
+        System.out.println(request.getParameter("username"));
         System.out.println(request.getParameter("password"));
 //            Member member = om.readValue(request.getInputStream(), Member.class);
 //            System.out.println(member);
 
-        String email = request.getParameter("email");
+        String email = request.getParameter("username");
         String password = request.getParameter("password");
 
 //            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(member.getEmail(), member.getPassword());
